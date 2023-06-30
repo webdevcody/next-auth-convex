@@ -1,4 +1,5 @@
 import { mutation, query } from "./_generated/server";
+import type { Doc, Id } from "./_generated/dataModel";
 
 export const getUserByAccountId = query(
   async (
@@ -10,7 +11,9 @@ export const getUserByAccountId = query(
   ) => {
     const account = await db
       .query("accounts")
-      .filter((q) => q.eq(q.field("providerAccountId"), providerAccountId))
+      .withIndex("account_id", (q) =>
+        q.eq("providerAccountId", providerAccountId)
+      )
       .first();
     if (!account) return null;
     const user = await db.get(account.userId);
@@ -19,23 +22,22 @@ export const getUserByAccountId = query(
 );
 
 export const getUserByEmail = query(({ db }, { email }: { email: string }) => {
-  console.log(email);
   return db
     .query("users")
-    .filter((q) => q.eq(q.field("email"), email))
+    .withIndex("email", (q) => q.eq("email", email))
     .first();
 });
 
-export const getUserById = query(({ db }, { id }: { id: any }) => {
+export const getUserById = query(({ db }, { id }: { id: Id<"users"> }) => {
   return db.get(id);
 });
 
-export const create = mutation(({ db }, user) => {
+export const create = mutation(({ db }, user: Doc<"users">) => {
   return db.insert("users", user);
 });
 
-export const update = mutation(({ db }, { _id, ...updates }: { _id: any }) => {
-  console.log(_id);
-  console.log(updates);
-  return db.patch(_id, updates);
-});
+export const update = mutation(
+  ({ db }, { _id, ...updates }: { _id: Id<"users"> }) => {
+    return db.patch(_id, updates);
+  }
+);
