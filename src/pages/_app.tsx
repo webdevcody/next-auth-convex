@@ -3,6 +3,15 @@ import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
 import { api } from "~/utils/api";
 import "~/styles/globals.css";
+import {
+  ConvexProvider,
+  ConvexProviderWithAuth,
+  ConvexReactClient,
+} from "convex/react";
+import { useAuthFromNextAuth } from "~/ConvexProviderWithNextAuth";
+import { env } from "~/env.mjs";
+
+const convex = new ConvexReactClient(env.NEXT_PUBLIC_CONVEX_URL);
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -10,7 +19,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
+      <ConvexProviderWithAuth client={convex} useAuth={useAuthFromNextAuth}>
+        <Component {...pageProps} />
+      </ConvexProviderWithAuth>
     </SessionProvider>
   );
 };

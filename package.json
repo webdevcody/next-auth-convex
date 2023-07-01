@@ -16,6 +16,8 @@
     "@trpc/react-query": "^10.26.0",
     "@trpc/server": "^10.26.0",
     "convex": "^0.17.1",
+    "jose": "^4.14.4",
+    "jsonwebtoken": "^9.0.0",
     "next": "^13.4.2",
     "next-auth": "^4.22.1",
     "react": "18.2.0",
@@ -25,6 +27,7 @@
   },
   "devDependencies": {
     "@types/eslint": "^8.37.0",
+    "@types/jsonwebtoken": "^9.0.2",
     "@types/node": "^18.16.0",
     "@types/prettier": "^2.7.2",
     "@types/react": "^18.2.6",

@@ -25,4 +25,7 @@ export default defineSchema({
     image: v.string(),
     name: v.string(),
   }).index("email", ["email"]),
+  todos: defineTable({
+    text: v.string(),
+  }),
 });
