@@ -1,3 +1,5 @@
+https://github.com/webdevcody/next-auth-convex/assets/123222405/ecdf5c51-d62d-4c5e-9b8c-0fa7f5a3d1e6
+
 # Next with Convex and Next-Auth
 
 This is a template project using next 13 app router, next-auth with google authentication, and convex for storing data. This manages to hook in auth by having a
