@@ -2,9 +2,9 @@
 export default {
   providers: [
     {
-      domain:
-        "https://9d12-2601-782-580-d6d0-254b-a39b-972e-5166.ngrok-free.app",
-      applicationID: "convex-auth",
+      domain: "https://accounts.google.com/",
+      applicationID:
+        "174677040831-l1fa4j4dckd6c7ahnpb1ecu0s4c7gn9e.apps.googleusercontent.com",
     },
   ],
 };
