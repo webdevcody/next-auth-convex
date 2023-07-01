@@ -1,9 +1,15 @@
 # Next with Convex and Next-Auth
 
-This is a work in progress. Do not use in production, only use as a reference.
+This is a template project using next 13 app router, next-auth with google authentication, and convex for storing data. This manages to hook in auth by having a
 
-## Goals
+## How it Works?
 
-I'm trying to find a way to setup next using next-auth to allow google login. In order to achieve this, I had to create a next-auth adapter for Convex for storing the users, accounts, and sessions. The issue with this setup is that on the next API side, we can easily just check the cookies, get the session token, and lookup the user session in our users table. But since we want to use convex for our backend, it wouldn't make sense to create various next api endpoints just to invoke convex actions and mutations.
+When a user clicks sign in, that will redirect them to google to login. After logging in, they will be redirect to the api/auth/[...nextauth].ts handler which will generate a JWT token and attach the id_token and refresh_token to the JWT. We store these on the token so that when the client initializes and needs to pass the id_token to the convex provider, we can hit the api/openid/token endpoit to get the id_token (which will read from the http only cookie), and send it back to the client so it can be passed to the provier. Additionally, when the useAuthFromNextAuth is being asked from convex to refresh, it'll make a request to /api/openid/refresh to get a new id_token which it will send to the convex provider.
 
-The approach I'm taking is to treat our next application like an authentication service which will give users a JWT token which they can send to Convex. We'd then verify the JWTs in convex. By trying this, I'm running into more issues because crypto related helper functions do not work in convex mutations, so basically a user can not invoke any public facing action, and instead all interactions with the convex api must be via mutation with the nodejs runtime.
+After successfully passing the id_token, you'll have access to the subject (userId) inside the convex queries / mutations by calling await auth.getUserIdentity().
+
+## Limitation
+
+This work is coded to ONLY work with google login. This is because the api/openid/refresh method is hard coded to hit the google oauth2 endpoint. In the future, you'd probably need to store the provider inside the token so we can switch between refresh endpoints of the various identity providers.
+
+This work does not handle magic link or email / password authentication.

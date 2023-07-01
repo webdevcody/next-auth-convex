@@ -12,22 +12,35 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center dark:bg-gray-900 dark:text-white">
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-        <button
-          onClick={async () => {
-            await createTodo({ text: "hello world" }).catch(console.error);
-          }}
-        >
-          Create a Todo
-        </button>
-
-        {todos?.map((todo) => (
-          <div key={todo._id}>{todo.text}</div>
-        ))}
-
         {session.isAuthenticated ? (
-          <button onClick={() => signOut()}>Sign Out</button>
+          <>
+            <button
+              className="rounded bg-green-200 px-3 py-2 text-lg text-gray-800"
+              onClick={async () => {
+                await createTodo({ text: "hello world" }).catch(console.error);
+              }}
+            >
+              Create a Todo
+            </button>
+
+            {todos?.map((todo) => (
+              <div key={todo._id}>{todo.text}</div>
+            ))}
+
+            <button
+              className="rounded bg-white px-3 py-2 text-lg text-gray-800"
+              onClick={() => signOut()}
+            >
+              Sign Out
+            </button>
+          </>
         ) : (
-          <button onClick={() => signIn()}>Sign In</button>
+          <button
+            className="rounded bg-white px-3 py-2 text-lg text-gray-800"
+            onClick={() => signIn()}
+          >
+            Sign In
+          </button>
         )}
       </div>
     </main>

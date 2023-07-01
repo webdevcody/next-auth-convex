@@ -4,7 +4,7 @@ import "src/styles/globals.css";
 import { type ReactNode } from "react";
 import { SessionProvider } from "next-auth/react";
 import { ConvexProviderWithAuth, ConvexReactClient } from "convex/react";
-import { useAuthFromNextAuth } from "./ConvexProviderWithNextAuth";
+import { useAuthFromNextAuth } from "./useAuthFromNextAuth";
 import { env } from "~/env.mjs";
 
 const convex = new ConvexReactClient(env.NEXT_PUBLIC_CONVEX_URL);
